@@ -40,15 +40,11 @@ module.exports = function gruntTask(grunt) {
    * dest     - The String path to write the rendered template
    */
   GMR.prototype.render = function render(data, template, dest) {
-    console.log(grunt.file.isDir(template));
     var self = this;
     if(grunt.file.isDir(template)) {
       grunt.file.recurse(template, function (abspath, rootdir, subdir, filename) {
         var renderFn = self._compileTemplate(abspath);
         data = self._getData(data);
-
-        console.log(renderFn(data, self._getPartial.bind(self)));
-
         grunt.file.write(dest + '/' + filename, renderFn(data, self._getPartial.bind(self)));
       });
     }
